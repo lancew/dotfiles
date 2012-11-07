@@ -19,7 +19,7 @@ import qualified Data.Map        as M
 -- The preferred terminal program, which is used in a binding below and by
 -- certain contrib modules.
 --
-myTerminal      = "gnome-terminal"
+-- myTerminal      = "gnome-terminal"
  
 -- Width of the window border in pixels.
 --
@@ -264,7 +264,6 @@ main = xmonad defaults
 --
 defaults = defaultConfig {
       -- simple stuff
-        terminal           = myTerminal,
         focusFollowsMouse  = myFocusFollowsMouse,
         borderWidth        = myBorderWidth,
         modMask            = myModMask,
