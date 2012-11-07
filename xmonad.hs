@@ -247,7 +247,7 @@ myLogHook = return ()
 -- per-workspace layout choices.
 --
 -- By default, do nothing.
-myStartupHook = return ()
+myStartupHook = spawn "synergys --config ~/.quicksynergy/synergy.conf"
  
 ------------------------------------------------------------------------
 -- Now run xmonad with all the defaults we set up.
