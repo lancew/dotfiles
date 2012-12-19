@@ -247,7 +247,7 @@ myLogHook = return ()
 -- per-workspace layout choices.
 --
 -- By default, do nothing.
-myStartupHook = spawn "synergys --config ~/.quicksynergy/synergy.conf"
+myStartupHook = spawn "synergys --config ~/.quicksynergy/synergy.conf; xrandr --output VGA-0 --right-of DVI-0"
  
 ------------------------------------------------------------------------
 -- Now run xmonad with all the defaults we set up.
