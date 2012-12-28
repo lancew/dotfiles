@@ -9,6 +9,7 @@
  
 import XMonad
 import System.Exit
+import XMonad.Actions.SpawnOn
 
 import XMonad.Layout.MultiToggle
 import XMonad.Layout.MultiToggle.Instances
@@ -19,7 +20,7 @@ import qualified Data.Map        as M
 -- The preferred terminal program, which is used in a binding below and by
 -- certain contrib modules.
 --
--- myTerminal      = "gnome-terminal"
+-- myTerminal      = "terminator"
  
 -- Width of the window border in pixels.
 --
@@ -56,7 +57,7 @@ myModMask       = mod1Mask
 --
 -- > workspaces = ["web", "irc", "code" ] ++ map show [4..9]
 --
-myWorkspaces    = ["1","2","3","4","5","6","7","8","9"]
+myWorkspaces    = ["one","two","3","4","5","6","7","8","9"]
  
 -- Border colors for unfocused and focused windows, respectively.
 --
@@ -247,7 +248,11 @@ myLogHook = return ()
 -- per-workspace layout choices.
 --
 -- By default, do nothing.
-myStartupHook = spawn "synergys --config ~/.quicksynergy/synergy.conf; xrandr --output VGA-0 --right-of DVI-0"
+myStartupHook = do
+    spawn "synergys --config ~/.quicksynergy/synergy.conf; xrandr --output VGA-0 --right-of DVI-0; feh --bg-scale /home/lancew/images/wallpapers/shared/xmonad.png"
+    spawn "terminator -e 'ssh willow' &"
+    spawn "terminator -e finch"
+    spawn "terminator &"
  
 ------------------------------------------------------------------------
 -- Now run xmonad with all the defaults we set up.
