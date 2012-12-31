@@ -137,6 +137,10 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
  
     -- Restart xmonad
     , ((modm              , xK_q     ), restart "xmonad" True)
+
+    -- Lock Screen
+    , ((modm .|. shiftMask, xK_l), spawn "xscreensaver-command -l")
+
     ]
     ++
  
@@ -249,7 +253,7 @@ myLogHook = return ()
 --
 -- By default, do nothing.
 myStartupHook = do
-    spawn "synergys --config ~/.quicksynergy/synergy.conf; xrandr --output VGA-0 --right-of DVI-0; feh --bg-scale /home/lancew/images/wallpapers/shared/xmonad.png"
+    spawn "synergys --config ~/.quicksynergy/synergy.conf; xrandr --output VGA-0 --right-of DVI-0; feh --bg-scale /home/lancew/images/wallpapers/shared/xmonad.png; xscreensaver -no-splash &"
     spawn "terminator -e 'ssh willow' &"
     spawn "terminator -e finch"
     spawn "terminator &"
