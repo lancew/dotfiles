@@ -8,7 +8,4 @@ and ~/.quicksynergy/synergy.conf is a symlink also.
 
 So basically, if the box goes bang, clone this repo then create those symlinks to get the settings back. :-)
 
-TODO:
-* Add my .vimrc
-* Add my .bashrc
 
