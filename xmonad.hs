@@ -257,7 +257,8 @@ myStartupHook = do
     spawn "terminator -e 'ssh willow' &"
     spawn "terminator -e finch"
     spawn "terminator &"
- 
+    spawn "skype" 
+    spawn "redshift -l 50.91:1.40"
 ------------------------------------------------------------------------
 -- Now run xmonad with all the defaults we set up.
  
