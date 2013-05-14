@@ -253,12 +253,10 @@ myLogHook = return ()
 --
 -- By default, do nothing.
 myStartupHook = do
-    spawn "synergys --config ~/.quicksynergy/synergy.conf; xrandr --output VGA-0 --right-of DVI-0; feh --bg-scale /home/lancew/images/wallpapers/shared/xmonad.png; xscreensaver -no-splash &"
-    spawn "terminator -e 'ssh willow' &"
-    spawn "terminator -e finch"
+    spawn "synergys --config ~/dotfiles/synergy.conf; xrandr --output VGA-0 --right-of DVI-0; feh --bg-scale /home/lancew/images/wallpapers/shared/xmonad.png; xscreensaver -no-splash &"
+    spawn "terminator -e 'ssh -X lance@willow' &"
     spawn "terminator &"
-    spawn "skype" 
-    spawn "redshift -l 50.91:1.40"
+    spawn "terminator pacman -Syu &"
 ------------------------------------------------------------------------
 -- Now run xmonad with all the defaults we set up.
  
