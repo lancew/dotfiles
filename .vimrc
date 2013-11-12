@@ -15,5 +15,7 @@ set pastetoggle=<F2>
 
 set ai "Auto indent
 
-
+" highlight and also remove on save trailing whitespace
+match ErrorMsg '\s\+$'
+autocmd BufWritePre * :%s/\s\+$//e
 
