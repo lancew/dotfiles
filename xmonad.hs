@@ -10,17 +10,23 @@
 import XMonad
 import System.Exit
 import XMonad.Actions.SpawnOn
+import XMonad.Util.EZConfig
+import XMonad.Hooks.EwmhDesktops
 
 import XMonad.Layout.MultiToggle
 import XMonad.Layout.MultiToggle.Instances
  
 import qualified XMonad.StackSet as W
 import qualified Data.Map        as M
+
+import XMonad.Layout.ThreeColumns
+import XMonad.Layout.Cross
+import XMonad.Layout.Accordion
  
 -- The preferred terminal program, which is used in a binding below and by
 -- certain contrib modules.
 --
--- myTerminal      = "terminator"
+myTerminal      = "xterm -fa inconsolata-10 -e ssh-add"
  
 -- Width of the window border in pixels.
 --
@@ -31,7 +37,7 @@ myBorderWidth   = 1
 -- ("right alt"), which does not conflict with emacs keybindings. The
 -- "windows key" is usually mod4Mask.
 --
-myModMask       = mod1Mask
+myModMask       = mod1Mask    -- mod4Mask if you want to use the wondows key
  
 -- The mask for the numlock key. Numlock status is "masked" from the
 -- current modifier status, so the keybindings will work with numlock on or
@@ -57,12 +63,12 @@ myModMask       = mod1Mask
 --
 -- > workspaces = ["web", "irc", "code" ] ++ map show [4..9]
 --
-myWorkspaces    = ["one","two","3","4","5","6","7","8","9"]
+myWorkspaces    = map show [1..12]
  
 -- Border colors for unfocused and focused windows, respectively.
 --
 myNormalBorderColor  = "#dddddd"
-myFocusedBorderColor = "#ff0000"
+myFocusedBorderColor = "#0000ff"
  
 ------------------------------------------------------------------------
 -- Key bindings. Add, modify or remove key bindings here.
@@ -76,7 +82,7 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
     , ((modm, xK_Caps_Lock), sendMessage $ Toggle FULL)
 
     -- launch dmenu
-    , ((modm,               xK_p     ), spawn "exe=`dmenu_path | dmenu` && eval \"exec $exe\"")
+    , ((modm,               xK_p     ), spawn "exe=`dmenu_path | dmenu_run` && eval \"exec $exe\"")
  
     -- launch gmrun
     , ((modm .|. shiftMask, xK_p     ), spawn "gmrun")
@@ -133,13 +139,13 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
     -- , ((modm , xK_b ), sendMessage ToggleStruts)
  
     -- Quit xmonad
-    , ((modm .|. shiftMask, xK_q     ), io (exitWith ExitSuccess))
+    , ((modm .|. shiftMask, xK_x     ), io (exitWith ExitSuccess))
  
     -- Restart xmonad
     , ((modm              , xK_q     ), restart "xmonad" True)
 
     -- Lock Screen
-    , ((modm .|. shiftMask, xK_l), spawn "xscreensaver-command -l")
+    , ((modm .|. shiftMask, xK_l), spawn "slock")
 
     ]
     ++
@@ -160,7 +166,7 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
     [((m .|. modm, key), screenWorkspace sc >>= flip whenJust (windows . f))
         | (key, sc) <- zip [xK_w, xK_e, xK_r] [0..]
         , (f, m) <- [(W.view, 0), (W.shift, shiftMask)]]
- 
+
  
 ------------------------------------------------------------------------
 -- Mouse bindings: default actions bound to mouse events
@@ -192,7 +198,7 @@ myMouseBindings (XConfig {XMonad.modMask = modMask}) = M.fromList $
 --
 myLayout = 
   mkToggle (NOBORDERS ?? FULL ?? EOT)
-  tiled ||| Mirror tiled ||| Full
+  tiled ||| Full ||| ThreeCol 1 (3/100) (1/2) ||| ThreeColMid 1 (3/100) (1/2) 
   where
      -- default tiling algorithm partitions the screen into two panes
      tiled   = Tall nmaster delta ratio
@@ -221,11 +227,6 @@ myLayout =
 -- To match on the WM_NAME, you can use 'title' in the same way that
 -- 'className' and 'resource' are used below.
 --
-myManageHook = composeAll
-    [ className =? "MPlayer"        --> doFloat
-    , className =? "Gimp"           --> doFloat
-    , resource  =? "desktop_window" --> doIgnore
-    , resource  =? "kdesktop"       --> doIgnore ]
  
 -- Whether focus follows the mouse pointer.
 myFocusFollowsMouse :: Bool
@@ -243,7 +244,8 @@ myFocusFollowsMouse = True
 -- > logHook = dynamicLogDzen
 --
 myLogHook = return ()
- 
+
+
 ------------------------------------------------------------------------
 -- Startup hook
  
@@ -253,10 +255,16 @@ myLogHook = return ()
 --
 -- By default, do nothing.
 myStartupHook = do
-    spawn "synergys --config ~/dotfiles/synergy.conf; xrandr --output VGA-0 --right-of DVI-0; feh --bg-scale /home/lancew/images/wallpapers/shared/xmonad.png; xscreensaver -no-splash &"
-    spawn "terminator -e 'ssh -X lance@willow' &"
-    spawn "terminator &"
-    spawn "terminator pacman -Syu &"
+    spawn "xterm -e 'sudo meric -Syu' &"
+    spawn "rmmod pcspkr"
+    spawn "setxkbmap gb"
+--    spawn "xrandr --output DVI-0 --rotate left"
+    spawn "xrandr --output DVI-0 --rotate normal --right-of VGA-0"
+    spawn "xrandr --output VGA-0 --primary"
+--    spawn "feh --bg-scale --no-xinerama Spy_vs_Spy.jpg"
+    spawn "xsetroot -cursor_name left_ptr"
+    spawn "xterm -e 'ssh-agent' &"
+    spawn "xterm -e 'ssh-sdd' &"
 ------------------------------------------------------------------------
 -- Now run xmonad with all the defaults we set up.
  
@@ -279,6 +287,7 @@ defaults = defaultConfig {
         workspaces         = myWorkspaces,
         normalBorderColor  = myNormalBorderColor,
         focusedBorderColor = myFocusedBorderColor,
+	handleEventHook    = fullscreenEventHook
  
       -- key bindings
         keys               = myKeys,
@@ -286,7 +295,7 @@ defaults = defaultConfig {
  
       -- hooks, layouts
         layoutHook         = myLayout,
-        manageHook         = myManageHook,
+        manageHook         = manageSpawn <+> manageHook defaultConfig,
         logHook            = myLogHook,
         startupHook        = myStartupHook
     }
