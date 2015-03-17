@@ -273,6 +273,7 @@ myStartupHook = do
     spawn "xrandr --output DVI-0 --rotate left --primary --left-of DisplayPort-0 --auto"
     spawn "xterm -e 'packer -Syu' &"
     spawn "dunst -conf ~/.dunstrc &"
+    spawn "xkbset -a"
 --    spawn "redshift -l 51.28982:-0.83064 &"
 ------------------------------------------------------------------------
 -- Now run xmonad with all the defaults we set up.
