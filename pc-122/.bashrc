@@ -15,6 +15,7 @@ function ssh_alias() {
 
 alias ssh=ssh_alias
 
+export EDITOR=vim
 
 PS1='[\u@\h \W]\$ '
 

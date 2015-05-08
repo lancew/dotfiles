@@ -152,8 +152,14 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
     -- Lock Screen
     , ((modm .|. shiftMask, xK_l), spawn "i3lock -d -c 000000")
 
-    -- eject/close the cd drive to annoy james
-    , ((modm .|. shiftMask, xK_o), spawn "eject -T")
+    -- set blink off
+    , ((modm .|. shiftMask, xK_o), spawn "blink1-tool --off")
+
+    -- set blink Orange
+    , ((modm .|. shiftMask, xK_y), spawn "blink1-tool --yellow")
+
+    -- set blink RED!!!
+    , ((modm .|. shiftMask, xK_y), spawn "blink1-tool --yellow")
     ]
     ++
 

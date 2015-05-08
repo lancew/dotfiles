@@ -1,4 +1,5 @@
 set nocompatible
+filetype off
 set expandtab
 set tabstop=4
 set shiftwidth=4
@@ -21,8 +22,8 @@ set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 
 Plugin 'gmarik/Vundle.vim'
-Plugin 'tpope/vim-fugitive'
-Plugin 'git://git.wincent.com/command-t.git'
+Plugin 'tpope/vim-git'
+Plugin 'airblade/vim-gitgutter'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
